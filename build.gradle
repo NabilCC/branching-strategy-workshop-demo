@@ -1,10 +1,11 @@
 plugins {
     id 'java'
     id 'org.springframework.boot' version "$springBootVersion"
+    id 'de.javaansehz.cluecumber-report-gradle-plugin' version "1.1.5"
 }
 
-sourceCompatibility=JavaVersion.VERSION_11
-targetCompatibility=JavaVersion.VERSION_11
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
 
 repositories {
     mavenCentral()
@@ -13,8 +14,21 @@ repositories {
 dependencies {
     compile "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
     compile "org.springframework.boot:spring-boot-starter-security:$springBootVersion"
+
+    testCompile "junit:junit:4.13"
+    testCompile "org.mockito:mockito-core:3.1.0"
+    testCompile "io.cucumber:cucumber-java:$cucumberVersion"
+    testCompile "io.cucumber:cucumber-junit:$cucumberVersion"
 }
 
 test {
-    useJUnitPlatform()
+    useJUnit()
 }
+
+test.finalizedBy(generateCluecumberReports)
+
+cluecumberReports {
+    sourceJsonReportDirectory = "$projectDir/build/test-results/test"
+    generatedHtmlReportDirectory = "$projectDir/build/reports/tests/cluecumber"
+}
+
