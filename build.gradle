@@ -13,8 +13,11 @@ repositories {
 
 dependencies {
     compile "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+
     compile "org.springframework.boot:spring-boot-starter-security:$springBootVersion"
 
+    testCompile "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
+    testCompile "org.springframework.security:spring-security-test:5.3.2.RELEASE"
     testCompile "junit:junit:4.13"
     testCompile "org.mockito:mockito-core:3.1.0"
     testCompile "io.cucumber:cucumber-java:$cucumberVersion"
