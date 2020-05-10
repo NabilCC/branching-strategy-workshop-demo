@@ -48,4 +48,11 @@ public class MaintenanceRepository {
                 .filter(mi -> mi.getAssignee().equals(assignee)).collect(toList());
     }
 
+    public MaintenanceInstruction findById(Long id) throws EntityNotFoundException {
+        MaintenanceInstruction instruction = instructions.get(id);
+        if (instruction == null) {
+            throw new EntityNotFoundException("Instruction does not exist");
+        }
+        return instruction;
+    }
 }

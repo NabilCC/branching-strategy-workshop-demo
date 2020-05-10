@@ -94,4 +94,7 @@ public class MaintenanceService {
         return new MaintenanceInstruction(request.getAssignee(), request.getAddress(), request.getType(), request.getCompletionByDate());
     }
 
+    public MaintenanceInstructionResponse findById(Long id) throws EntityNotFoundException {
+        return toResponse(maintenanceRepository.findById(id));
+    }
 }
