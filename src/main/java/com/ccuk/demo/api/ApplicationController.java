@@ -1,5 +1,7 @@
 package com.ccuk.demo.api;
 
+import com.ccuk.demo.feature.FeatureFlag;
+import com.ccuk.demo.feature.FeatureFlagService;
 import com.ccuk.demo.service.MaintenanceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,20 +17,19 @@ public class ApplicationController {
 
     private static final Logger LOG = LoggerFactory.getLogger(ApplicationController.class);
 
-    @Value("${welcome.message}")
-    private String welcomeMessage;
-
+    private FeatureFlagService featureFlagService;
     private MaintenanceService maintenanceService;
 
     @Autowired
-    public ApplicationController(MaintenanceService maintenanceService) {
+    public ApplicationController(FeatureFlagService featureFlagService, MaintenanceService maintenanceService) {
+        this.featureFlagService = featureFlagService;
         this.maintenanceService = maintenanceService;
     }
 
     @GetMapping("/")
     public String testEndpoint(Principal principal) {
-        LOG.info("Test endpoint called");
-        return maintenanceService.welcomeMessage();
+        boolean enabled = featureFlagService.isFeatureEnabledForUser(principal, FeatureFlag.TEST_ENDPOINT);
+        return enabled ? maintenanceService.welcomeMessage() : "This feature is not enabled";
     }
 
 }

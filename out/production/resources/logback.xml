@@ -9,7 +9,7 @@
         </encoder>
     </appender>
 
-    <logger name="net.nh">
+    <logger name="com.ccuk">
         <level value="DEBUG"/>
     </logger>
 
