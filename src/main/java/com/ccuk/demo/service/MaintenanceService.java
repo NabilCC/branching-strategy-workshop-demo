@@ -1,6 +1,7 @@
 package com.ccuk.demo.service;
 
 import com.ccuk.demo.entity.MaintenanceInstruction;
+import com.ccuk.demo.exception.EntityNotFoundException;
 import com.ccuk.demo.exception.ValidationException;
 import com.ccuk.demo.repository.MaintenanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class MaintenanceService {
@@ -32,7 +34,25 @@ public class MaintenanceService {
         return welcomeMessage;
     }
 
-    public MaintenanceInstruction saveMaintenanceInstruction(MaintenanceInstruction maintenanceInstruction) throws ValidationException {
+    public MaintenanceInstruction createMaintenanceInstruction(MaintenanceInstruction maintenanceInstruction) throws ValidationException {
+        validateMaintenanceInstruction(maintenanceInstruction);
+        return maintenanceRepository.create(maintenanceInstruction);
+    }
+
+    public MaintenanceInstruction updateMaintenanceInstruction(Long id, MaintenanceInstruction maintenanceInstruction) throws ValidationException, EntityNotFoundException {
+        validateMaintenanceInstruction(maintenanceInstruction);
+        return maintenanceRepository.update(id, maintenanceInstruction);
+    }
+
+    public List<MaintenanceInstruction> findAll() {
+        return maintenanceRepository.findAll();
+    }
+
+    public List<MaintenanceInstruction> findByAssignee(String assignee) {
+        return maintenanceRepository.findByAssignee(assignee);
+    }
+
+    private void validateMaintenanceInstruction(MaintenanceInstruction maintenanceInstruction) throws ValidationException {
         Long nowEpochMs = new Date().getTime();
 
         if (maintenanceInstruction.getCompletionByDate() == null) {
@@ -54,9 +74,6 @@ public class MaintenanceService {
         if (maintenanceInstruction.getAssignee() == null) {
             throw new ValidationException(ASSIGNEE_IS_MANDATORY);
         }
-
-        return maintenanceRepository.create(maintenanceInstruction);
     }
-
 
 }

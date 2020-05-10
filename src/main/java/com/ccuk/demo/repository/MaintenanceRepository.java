@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Repository
 public class MaintenanceRepository {
@@ -27,15 +30,22 @@ public class MaintenanceRepository {
         return instruction;
     }
 
-    public void update(MaintenanceInstruction instruction) throws EntityNotFoundException {
-        if (!instructions.containsKey(instruction.getId())) {
+    public MaintenanceInstruction update(Long id, MaintenanceInstruction instruction) throws EntityNotFoundException {
+        if (!instructions.containsKey(id)) {
             throw new EntityNotFoundException("Instruction with specified ID does not exist");
         }
         instructions.put(instruction.getId(), instruction);
+        instruction.setId(id);
+        return instruction;
     }
 
     public List<MaintenanceInstruction> findAll() {
         return new ArrayList<>(instructions.values());
+    }
+
+    public List<MaintenanceInstruction> findByAssignee(String assignee) {
+        return instructions.values().stream()
+                .filter(mi -> mi.getAssignee().equals(assignee)).collect(toList());
     }
 
 }

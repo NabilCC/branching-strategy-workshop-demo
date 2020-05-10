@@ -27,7 +27,7 @@ public class MaintenanceInstructionCreationGlue {
 
     private Date futureDate, pastDate;
     private MaintenanceService service;
-    private MaintenanceInstruction originalInstruction, returnedInstruction;
+    private MaintenanceInstruction originalInstruction;
     private MaintenanceRepository repository;
     private Exception caughtException;
 
@@ -36,7 +36,6 @@ public class MaintenanceInstructionCreationGlue {
         repository = mock(MaintenanceRepository.class);
         service = new MaintenanceService(repository);
         originalInstruction = null;
-        returnedInstruction = null;
         caughtException = null;
 
         Long nowEpochMs = new Date().getTime();
@@ -81,7 +80,7 @@ public class MaintenanceInstructionCreationGlue {
     @When("I submit the work instruction")
     public void i_submit_the_work_instruction() {
         try {
-            this.returnedInstruction = service.saveMaintenanceInstruction(originalInstruction);
+            service.createMaintenanceInstruction(originalInstruction);
         } catch (ValidationException e) {
             this.caughtException = e;
         }
