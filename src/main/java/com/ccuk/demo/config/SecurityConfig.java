@@ -31,7 +31,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // all endpoints require application access - we will secure the remaining ones manually via feature toggles
                 .antMatchers("/**").access("hasAuthority('application_access')")
                 .and()
-                .httpBasic();
+                .httpBasic()
+                .and().csrf().disable();
     }
 
     @Override

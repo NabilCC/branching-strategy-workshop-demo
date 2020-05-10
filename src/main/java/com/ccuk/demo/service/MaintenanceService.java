@@ -1,5 +1,7 @@
 package com.ccuk.demo.service;
 
+import com.ccuk.demo.api.MaintenanceInstructionRequest;
+import com.ccuk.demo.api.MaintenanceInstructionResponse;
 import com.ccuk.demo.entity.MaintenanceInstruction;
 import com.ccuk.demo.exception.EntityNotFoundException;
 import com.ccuk.demo.exception.ValidationException;
@@ -34,14 +36,26 @@ public class MaintenanceService {
         return welcomeMessage;
     }
 
-    public MaintenanceInstruction createMaintenanceInstruction(MaintenanceInstruction maintenanceInstruction) throws ValidationException {
-        validateMaintenanceInstruction(maintenanceInstruction);
-        return maintenanceRepository.create(maintenanceInstruction);
+    public MaintenanceInstruction createMaintenanceInstruction(MaintenanceInstructionRequest request) throws ValidationException {
+        MaintenanceInstruction instruction = fromRequest(request);
+        validateMaintenanceInstruction(instruction);
+        return maintenanceRepository.create(instruction);
     }
 
-    public MaintenanceInstruction updateMaintenanceInstruction(Long id, MaintenanceInstruction maintenanceInstruction) throws ValidationException, EntityNotFoundException {
-        validateMaintenanceInstruction(maintenanceInstruction);
-        return maintenanceRepository.update(id, maintenanceInstruction);
+    public MaintenanceInstruction updateMaintenanceInstruction(Long id, MaintenanceInstructionRequest request) throws ValidationException, EntityNotFoundException {
+        MaintenanceInstruction instruction = fromRequest(request);
+        validateMaintenanceInstruction(instruction);
+        return maintenanceRepository.update(id, instruction);
+    }
+
+    public MaintenanceInstructionResponse toResponse(MaintenanceInstruction instruction) {
+        MaintenanceInstructionResponse response = new MaintenanceInstructionResponse();
+        response.setId(instruction.getId());
+        response.setAddress(instruction.getAddress());
+        response.setAssignee(instruction.getAssignee());
+        response.setCompletionByDate(instruction.getCompletionByDate());
+        response.setType(instruction.getType());
+        return response;
     }
 
     public List<MaintenanceInstruction> findAll() {
@@ -74,6 +88,10 @@ public class MaintenanceService {
         if (maintenanceInstruction.getAssignee() == null) {
             throw new ValidationException(ASSIGNEE_IS_MANDATORY);
         }
+    }
+
+    private MaintenanceInstruction fromRequest(MaintenanceInstructionRequest request) {
+        return new MaintenanceInstruction(request.getAssignee(), request.getAddress(), request.getType(), request.getCompletionByDate());
     }
 
 }
