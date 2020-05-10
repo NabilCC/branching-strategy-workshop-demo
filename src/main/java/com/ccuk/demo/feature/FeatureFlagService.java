@@ -56,5 +56,4 @@ public class FeatureFlagService implements InitializingBean, DisposableBean {
         return result;
     }
 
-
 }
