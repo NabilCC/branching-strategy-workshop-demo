@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.security.Principal;
 import java.util.Date;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -70,5 +71,13 @@ public class ApplicationControllerTest {
         this.mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(ApplicationController.FEATURE_NOT_ENABLED_FOR_USER));
+    }
+
+    private void assertInstructionResponseMatchesExpected(MaintenanceInstructionResponse expectedResponse, MaintenanceInstructionResponse actualResponse) {
+        assertEquals(expectedResponse.getId(), expectedResponse.getId());
+        assertEquals(expectedResponse.getAddress(), actualResponse.getAddress());
+        assertEquals(expectedResponse.getAssignee(), actualResponse.getAssignee());
+        assertEquals(expectedResponse.getCompletionByDate(), actualResponse.getCompletionByDate());
+        assertEquals(expectedResponse.getType(), actualResponse.getType());
     }
 }
