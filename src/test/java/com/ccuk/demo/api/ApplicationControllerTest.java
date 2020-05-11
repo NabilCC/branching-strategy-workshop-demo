@@ -3,6 +3,7 @@ package com.ccuk.demo.api;
 import com.ccuk.demo.feature.FeatureFlag;
 import com.ccuk.demo.feature.FeatureFlagService;
 import com.ccuk.demo.service.MaintenanceService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +29,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class ApplicationControllerTest {
 
-    @Value("${welcome.message}")
-    private String welcomeMessage;
-
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @MockBean
     private MaintenanceService maintenanceService;
