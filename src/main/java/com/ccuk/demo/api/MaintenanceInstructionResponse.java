@@ -12,6 +12,18 @@ public class MaintenanceInstructionResponse {
     private MaintenanceInstructionType type;
     private Date completionByDate;
 
+    public MaintenanceInstructionResponse() {
+        // for Jackson
+    }
+
+    public MaintenanceInstructionResponse(Long id, String assignee, String address, MaintenanceInstructionType type, Date completionByDate) {
+        this.id = id;
+        this.assignee = assignee;
+        this.address = address;
+        this.type = type;
+        this.completionByDate = completionByDate;
+    }
+
     public Long getId() {
         return id;
     }
