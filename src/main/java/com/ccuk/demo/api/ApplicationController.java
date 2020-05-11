@@ -1,5 +1,6 @@
 package com.ccuk.demo.api;
 
+import com.ccuk.demo.exception.ValidationException;
 import com.ccuk.demo.feature.FeatureFlag;
 import com.ccuk.demo.feature.FeatureFlagService;
 import com.ccuk.demo.service.MaintenanceService;
@@ -32,6 +33,10 @@ public class ApplicationController {
     public String testEndpoint(Principal principal) {
         boolean enabled = featureFlagService.isFeatureEnabledForUser(principal, FeatureFlag.TEST_ENDPOINT);
         return enabled ? maintenanceService.welcomeMessage() : FEATURE_NOT_ENABLED_FOR_USER;
+    }
+
+    public static String invalidRequestMessage(ValidationException e) {
+        return "Invalid request: " + e.getMessage();
     }
 
 }
