@@ -13,6 +13,17 @@ public class MaintenanceInstructionRequest {
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date completionByDate;
 
+    public MaintenanceInstructionRequest() {
+        // for Jackson
+    }
+
+    public MaintenanceInstructionRequest(String assignee, String address, MaintenanceInstructionType type, Date completionByDate) {
+        this.assignee = assignee;
+        this.address = address;
+        this.type = type;
+        this.completionByDate = completionByDate;
+    }
+
     public void setAssignee(String assignee) {
         this.assignee = assignee;
     }

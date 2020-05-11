@@ -16,7 +16,7 @@ import java.security.Principal;
 public class ApplicationController {
 
     private static final Logger LOG = LoggerFactory.getLogger(ApplicationController.class);
-    private static final String FEATURE_NOT_ENABLED_FOR_USER = "This feature is not enabled for the specified user";
+    public static final String FEATURE_NOT_ENABLED_FOR_USER = "This feature is not enabled for the specified user";
 
     private FeatureFlagService featureFlagService;
     private MaintenanceService maintenanceService;
