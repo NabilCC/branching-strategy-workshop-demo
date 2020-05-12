@@ -31,7 +31,7 @@ public class UserRepository {
     private static final Map<String, UserDetails> usersByUsername;
     static {
         usersByUsername = new HashMap<>();
-        usersByUsername.put(SYSADMIN, new User(MAINTENANCE_OPERATIVE, "letadmin", Set.of(APPLICATION_ACCESS, ADMIN)));
+        usersByUsername.put(SYSADMIN, new User(SYSADMIN, "letadmin", Set.of(APPLICATION_ACCESS, ADMIN)));
         usersByUsername.put(MAINTENANCE_OPERATIVE, new User(MAINTENANCE_OPERATIVE, "letmoin", Set.of(APPLICATION_ACCESS, MAINTENANCE_OPERATIONS)));
         usersByUsername.put(MAINTENANCE_LEADER, new User(MAINTENANCE_LEADER, "letmlin", Set.of(APPLICATION_ACCESS, MAINTENANCE_ADMIN_AUTHORITY)));
     }
