@@ -7,6 +7,7 @@ import com.ccuk.demo.feature.FeatureFlag;
 import com.ccuk.demo.feature.FeatureFlagService;
 import com.ccuk.demo.service.MaintenanceService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
