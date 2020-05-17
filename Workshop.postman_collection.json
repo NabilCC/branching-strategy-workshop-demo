@@ -1,0 +1,317 @@
+{
+	"info": {
+		"_postman_id": "b1b6e044-b00e-47e0-9bfe-30d2822fc28c",
+		"name": "Workshop",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Instruction",
+			"item": [
+				{
+					"name": "Create Instruction_Maintenance Leader",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "letmlin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "maintenance_leader",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"assignee\" : \"JOE_BLOGGS\", \n\t\"address\" : \"12 Clean Street, Glasgow, G2 1BP\", \n\t\"type\": \"CLEANING\",\n\t\"completionByDate\" : \"2020-08-01\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/instruction",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"instruction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Instruction_Maintenance Operative",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "letmoin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "maintenance_operative",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"assignee\" : \"JOE_BLOGGS\", \n\t\"address\" : \"12 Clean Street, Glasgow, G2 1BP\", \n\t\"type\": \"CLEANING\",\n\t\"completionByDate\" : \"2020-08-01\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/instruction",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"instruction"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Get Instruction By ID",
+			"item": [
+				{
+					"name": "Get Instruction By Id_Maintenance Leader",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "letmlin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "maintenance_leader",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/instruction/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"instruction",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Instruction By Id_Maintenance Operative",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "letmlin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "maintenance_leader",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/instruction/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"instruction",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Get Instructions By Assignee",
+			"item": [
+				{
+					"name": "Get Requests By Assignee",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/instruction?assignee=JOE_BLOGGS",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"instruction"
+							],
+							"query": [
+								{
+									"key": "assignee",
+									"value": "JOE_BLOGGS"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Test",
+			"item": [
+				{
+					"name": "Test Endpoint_Maintenance Leader",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "letmlin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "maintenance_leader",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Test Endpoint_Maintenance Operative",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "letmoin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "maintenance_operative",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Test Endpoint_Admin",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "sys",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "letadmin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
