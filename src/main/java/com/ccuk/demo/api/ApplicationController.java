@@ -44,9 +44,16 @@ public class ApplicationController {
 
     @GetMapping("/")
     public String testEndpoint(Principal principal) {
+        return maintenanceService.welcomeMessage();
+    }
+
+    @GetMapping("/feature")
+    public String testFeatureEndpoint(Principal principal) {
         boolean enabled = featureFlagService.isFeatureEnabledForUser(principal, FeatureFlag.TEST_ENDPOINT);
         return enabled ? maintenanceService.welcomeMessage() : FEATURE_NOT_ENABLED_FOR_USER;
     }
+
+
 
     public static String invalidRequestMessage(ValidationException e) {
         return "Invalid request: " + e.getMessage();
