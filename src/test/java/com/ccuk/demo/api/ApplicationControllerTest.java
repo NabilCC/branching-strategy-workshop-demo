@@ -88,8 +88,6 @@ public class ApplicationControllerTest {
     }
 
 
-
-
     private void assertInstructionResponseMatchesExpected(MaintenanceInstructionResponse expectedResponse, MaintenanceInstructionResponse actualResponse) {
         assertEquals(expectedResponse.getId(), expectedResponse.getId());
         assertEquals(expectedResponse.getAddress(), actualResponse.getAddress());
