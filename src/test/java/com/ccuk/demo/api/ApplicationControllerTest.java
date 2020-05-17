@@ -87,6 +87,7 @@ public class ApplicationControllerTest {
                 .andExpect(content().string(FEATURE_NOT_ENABLED_FOR_USER));
     }
 
+
     private void assertInstructionResponseMatchesExpected(MaintenanceInstructionResponse expectedResponse, MaintenanceInstructionResponse actualResponse) {
         assertEquals(expectedResponse.getId(), expectedResponse.getId());
         assertEquals(expectedResponse.getAddress(), actualResponse.getAddress());
