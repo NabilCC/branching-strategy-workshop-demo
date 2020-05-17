@@ -72,7 +72,7 @@ public class ApplicationControllerTest {
 
         when(maintenanceService.welcomeMessage()).thenReturn("hello");
 
-        this.mockMvc.perform(get("/"))
+        this.mockMvc.perform(get("/feature"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("hello"));
     }
@@ -82,7 +82,7 @@ public class ApplicationControllerTest {
     public void welcome_feature_flag_off_expect_notEnabled_message() throws Exception {
         when(featureFlagService.isFeatureEnabledForUser(any(Principal.class), eq(FeatureFlag.TEST_ENDPOINT))).thenReturn(false);
 
-        this.mockMvc.perform(get("/"))
+        this.mockMvc.perform(get("/feature"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(FEATURE_NOT_ENABLED_FOR_USER));
     }
