@@ -1,4 +1,4 @@
-name: Build test and deploy release branch
+name: Build test and deploy release
 
 on:
   release:
