@@ -1,5 +1,7 @@
 # branching-strategy-workshop-demo
 
+![Build and test master](https://github.com/NabilCC/branching-strategy-workshop-demo/workflows/Build%20and%20test%20master/badge.svg?branch=master)
+
 ## Building With Docker
 
 To build a Docker image:
