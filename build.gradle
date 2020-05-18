@@ -32,6 +32,6 @@ test.finalizedBy(generateCluecumberReports)
 
 cluecumberReports {
     sourceJsonReportDirectory = "$projectDir/build/test-results/test"
-    generatedHtmlReportDirectory = "$projectDir/build/reports/tests/cluecumber"
+    generatedHtmlReportDirectory = "$projectDir/build/reports/tests/cucumber"
 }
 
