@@ -37,6 +37,10 @@ jobs:
       - name: Upload test reports
         run: |
           aws s3 cp build/reports/tests/cucumber/ s3://branch-workshop/${{ steps.generate-uuid.outputs.uuid }}/cucumber --recursive
-          echo "Cucumber reports location: https://branch-workshop.s3-eu-west-1.amazonaws.com/${{ steps.generate-uuid.outputs.uuid }}/cucumber/index.html"
           aws s3 cp build/reports/tests/test/ s3://branch-workshop/${{ steps.generate-uuid.outputs.uuid }}/test --recursive
+
+      - name: Provide test report location
+        run: |
+          echo "Cucumber reports location: https://branch-workshop.s3-eu-west-1.amazonaws.com/${{ steps.generate-uuid.outputs.uuid }}/cucumber/index.html"
           echo "JUnit reports location: https://branch-workshop.s3-eu-west-1.amazonaws.com/${{ steps.generate-uuid.outputs.uuid }}/test/index.html"
+          
