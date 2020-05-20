@@ -62,5 +62,5 @@ jobs:
       with:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
         service: branch-workshop
-        cluster: default
+        cluster: branch-workshop
         wait-for-service-stability: true
