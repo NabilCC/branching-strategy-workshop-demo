@@ -2,7 +2,9 @@ name: Build and test pull requests
 
 on:
   pull_request:
-    branches: [ master ]
+    branches:
+      - 'master'
+      - 'release/**'
 
 jobs:
   build:
