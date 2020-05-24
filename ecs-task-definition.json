@@ -33,7 +33,7 @@
             "workingDirectory": null,
             "secrets": [
                 {
-                    "valueFrom": "arn:aws:secretsmanager:eu-west-1:088931779933:secret:launch_darkly_key-f2dVTX",
+                    "valueFrom": "arn:aws:secretsmanager:eu-west-1:088931779933:secret:launch_darkly_key_2-lLIoa0",
                     "name": "launch_darkly_key"
                 }
             ],
@@ -42,7 +42,7 @@
             "memoryReservation": 512,
             "volumesFrom": [],
             "stopTimeout": null,
-            "image": "088931779933.dkr.ecr.eu-west-1.amazonaws.com/branch-workshop:latest",
+            "image": "088931779933.dkr.ecr.eu-west-1.amazonaws.com/branch-workshop:11f6d53d0655ceed1143ce466e4ef7ccc4e3e490",
             "startTimeout": null,
             "firelensConfiguration": null,
             "dependsOn": null,
@@ -68,7 +68,7 @@
     "compatibilities": [
         "EC2"
     ],
-    "taskDefinitionArn": "arn:aws:ecs:eu-west-1:088931779933:task-definition/branch-workshop:2",
+    "taskDefinitionArn": "arn:aws:ecs:eu-west-1:088931779933:task-definition/branch-workshop:12",
     "family": "branch-workshop",
     "requiresAttributes": [
         {
@@ -126,7 +126,7 @@
     ],
     "networkMode": null,
     "cpu": null,
-    "revision": 2,
+    "revision": 12,
     "status": "ACTIVE",
     "inferenceAccelerators": null,
     "proxyConfiguration": null,
