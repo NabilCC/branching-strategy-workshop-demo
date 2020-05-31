@@ -29,6 +29,7 @@ import java.util.Date;
 import static com.ccuk.demo.api.ApplicationController.FEATURE_NOT_ENABLED_FOR_USER;
 import static com.ccuk.demo.api.ApplicationController.INSTRUCTION_RESOURCE;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
@@ -65,7 +66,10 @@ public class ApplicationControllerTest {
         futureCompletionDate = new Date(nowMs + 600_000L);
     }
 
-
+    @Test
+    public void foo() {
+        assertTrue(true);
+    }
 
     private void assertInstructionResponseMatchesExpected(MaintenanceInstructionResponse expectedResponse, MaintenanceInstructionResponse actualResponse) {
         assertEquals(expectedResponse.getId(), expectedResponse.getId());
