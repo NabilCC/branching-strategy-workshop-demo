@@ -6,6 +6,132 @@
 	},
 	"item": [
 		{
+			"name": "Feature Mgmt",
+			"item": [
+				{
+					"name": "Feature List",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "letmoin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "maintenance_operative",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/feature",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"feature"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enable Create Instruction For Maintenance Leader",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "sysadmin",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "letadmin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"flag\": \"CREATE_INSTRUCTION\",\n    \"enabled\": true,\n    \"authorities\": [\"maintenance_admin\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/feature",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"feature"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enable Get Instruction By Id For All",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "sysadmin",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "letadmin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"flag\": \"GET_INSTRUCTION_BY_ID\",\n    \"enabled\": true,\n    \"authorities\": []\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/feature",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"feature"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
 			"name": "Create Instruction",
 			"item": [
 				{
@@ -143,12 +269,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "letmlin",
+									"value": "letmoin",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "maintenance_leader",
+									"value": "maintenance_operative",
 									"type": "string"
 								}
 							]
@@ -165,37 +291,6 @@
 							"path": [
 								"instruction",
 								"1"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"protocolProfileBehavior": {}
-		},
-		{
-			"name": "Get Instructions By Assignee",
-			"item": [
-				{
-					"name": "Get Requests By Assignee",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8090/instruction?assignee=JOE_BLOGGS",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8090",
-							"path": [
-								"instruction"
-							],
-							"query": [
-								{
-									"key": "assignee",
-									"value": "JOE_BLOGGS"
-								}
 							]
 						}
 					},
