@@ -1,13 +1,8 @@
 package com.ccuk.demo.feature;
 
-import com.launchdarkly.client.LDClient;
-import com.launchdarkly.client.LDUser;
-import com.launchdarkly.client.value.LDValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
