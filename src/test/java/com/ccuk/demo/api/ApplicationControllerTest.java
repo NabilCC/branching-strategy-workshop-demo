@@ -65,27 +65,7 @@ public class ApplicationControllerTest {
         futureCompletionDate = new Date(nowMs + 600_000L);
     }
 
-    @Test
-    @WithMockUser(username = "admin", authorities = { "application_access" })
-    public void welcome_feature_flag_on_expect_welcome_message() throws Exception {
-        when(featureFlagService.isFeatureEnabledForUser(any(Principal.class), eq(FeatureFlag.TEST_ENDPOINT))).thenReturn(true);
 
-        when(maintenanceService.welcomeMessage()).thenReturn("hello");
-
-        this.mockMvc.perform(get("/feature"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("hello"));
-    }
-
-    @Test
-    @WithMockUser(username = "admin", authorities = { "application_access" })
-    public void welcome_feature_flag_off_expect_notEnabled_message() throws Exception {
-        when(featureFlagService.isFeatureEnabledForUser(any(Principal.class), eq(FeatureFlag.TEST_ENDPOINT))).thenReturn(false);
-
-        this.mockMvc.perform(get("/feature"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(FEATURE_NOT_ENABLED_FOR_USER));
-    }
 
     private void assertInstructionResponseMatchesExpected(MaintenanceInstructionResponse expectedResponse, MaintenanceInstructionResponse actualResponse) {
         assertEquals(expectedResponse.getId(), expectedResponse.getId());
