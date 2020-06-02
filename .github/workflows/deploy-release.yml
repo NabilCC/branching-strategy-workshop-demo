@@ -1,8 +1,9 @@
 on:
-  release:
-    types: [published]
+    create:
+        branches:    
+        - 'release/**'
     
-name: Deploy release
+name: Deploy release branches to UAT
 
 jobs:
   deploy:
