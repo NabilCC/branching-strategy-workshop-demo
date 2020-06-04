@@ -71,6 +71,73 @@ public class ApplicationControllerTest {
         assertTrue(true);
     }
 
+    @Test
+    @WithMockUser(username = "admin", authorities = { "application_access" })
+    public void createNewInstruction_feature_flag_off_expect_notEnabledMessage() throws Exception {
+        when(featureFlagService.isFeatureEnabledForUser(any(Principal.class), eq(FeatureFlag.CREATE_INSTRUCTION))).thenReturn(false);
+
+        MaintenanceInstructionRequest request = new MaintenanceInstructionRequest("the_assignee", "the_address", MaintenanceInstructionType.CLEANING, futureCompletionDate);
+        byte[] requestBytes = objectMapper.writeValueAsBytes(request);
+
+        this.mockMvc.perform(post(INSTRUCTION_RESOURCE).contentType(MediaType.APPLICATION_JSON).content(requestBytes))
+                .andExpect(status().isForbidden())
+                .andExpect(content().string(ApplicationController.FEATURE_NOT_ENABLED_FOR_USER));
+    }
+
+    @Test
+    @WithMockUser(username = "admin", authorities = { "application_access" })
+    public void createNewInstruction_validationException_expectBadRequestStatus() throws Exception {
+        when(featureFlagService.isFeatureEnabledForUser(any(Principal.class), eq(FeatureFlag.CREATE_INSTRUCTION))).thenReturn(true);
+        ValidationException toThrow = new ValidationException("expected_message");
+        when(maintenanceService.createMaintenanceInstruction(any(MaintenanceInstructionRequest.class))).thenThrow(toThrow);
+
+        MaintenanceInstructionRequest request = new MaintenanceInstructionRequest("the_assignee", "the_address", MaintenanceInstructionType.CLEANING, futureCompletionDate);
+        byte[] requestBytes = objectMapper.writeValueAsBytes(request);
+
+        this.mockMvc.perform(post(INSTRUCTION_RESOURCE).contentType(MediaType.APPLICATION_JSON).content(requestBytes))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string(ApplicationController.invalidRequestMessage(toThrow)));
+    }
+
+    @Test
+    @WithMockUser(username = "admin", authorities = { "application_access" })
+    public void createNewInstruction_validRequest_expectCreatedStatusWithHeader() throws Exception {
+        when(featureFlagService.isFeatureEnabledForUser(any(Principal.class), eq(FeatureFlag.CREATE_INSTRUCTION))).thenReturn(true);
+        MaintenanceInstruction createdInstruction = new MaintenanceInstruction();
+        createdInstruction.setId(1L);
+        when(maintenanceService.createMaintenanceInstruction(any(MaintenanceInstructionRequest.class))).thenReturn(createdInstruction);
+
+        MaintenanceInstructionRequest request = new MaintenanceInstructionRequest("the_assignee", "the_address", MaintenanceInstructionType.CLEANING, futureCompletionDate);
+        byte[] requestBytes = objectMapper.writeValueAsBytes(request);
+
+        this.mockMvc.perform(post(INSTRUCTION_RESOURCE).contentType(MediaType.APPLICATION_JSON).content(requestBytes))
+                .andExpect(status().isCreated())
+                .andExpect(header().string(LOCATION, "http://localhost" + INSTRUCTION_RESOURCE + "/1"));
+    }
+
+    @Test
+    @WithMockUser(username = "admin", authorities = { "application_access" })
+    public void getInstructionById_featureDisabled_expectCorrectMessage() throws Exception {
+        when(featureFlagService.isFeatureEnabledForUser(any(Principal.class), eq(FeatureFlag.GET_INSTRUCTION_BY_ID))).thenReturn(false);
+        this.mockMvc.perform(get(INSTRUCTION_RESOURCE + "/1"))
+                .andExpect(status().isForbidden()).andExpect(content().string(FEATURE_NOT_ENABLED_FOR_USER));
+    }
+
+    @Test
+    @WithMockUser(username = "admin", authorities = { "application_access" })
+    public void getInstructionById_featureEnabled_expectCorrectResponse() throws Exception {
+        when(featureFlagService.isFeatureEnabledForUser(any(Principal.class), eq(FeatureFlag.GET_INSTRUCTION_BY_ID))).thenReturn(true);
+        MaintenanceInstructionResponse givenResponse = new MaintenanceInstructionResponse(1L, "the_assignee", "the_address", MaintenanceInstructionType.CLEANING, futureCompletionDate);
+        when(maintenanceService.findById(anyLong())).thenReturn(givenResponse);
+
+        MvcResult mvcResult = this.mockMvc.perform(get(INSTRUCTION_RESOURCE + "/1"))
+                .andExpect(status().isOk()).andReturn();
+
+        byte[] responseBodyBytes = mvcResult.getResponse().getContentAsByteArray();
+        MaintenanceInstructionResponse actualResponse = objectMapper.readValue(responseBodyBytes, MaintenanceInstructionResponse.class);
+        assertInstructionResponseMatchesExpected(givenResponse, actualResponse);
+    }
+
     private void assertInstructionResponseMatchesExpected(MaintenanceInstructionResponse expectedResponse, MaintenanceInstructionResponse actualResponse) {
         assertEquals(expectedResponse.getId(), expectedResponse.getId());
         assertEquals(expectedResponse.getAddress(), actualResponse.getAddress());

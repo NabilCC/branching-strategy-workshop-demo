@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -66,6 +67,47 @@ public class ApplicationController {
             return ResponseEntity.badRequest().body("Invalid feature flag name");
         }
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping(value = INSTRUCTION_RESOURCE, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> createNewInstruction(@RequestBody MaintenanceInstructionRequest request, Principal principal) {
+        if (!featureFlagService.isFeatureEnabledForUser(principal, FeatureFlag.CREATE_INSTRUCTION)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(FEATURE_NOT_ENABLED_FOR_USER);
+        }
+
+        if (request.getAssignee().equals("fatal")) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Looks like there is a bug?");
+        }
+
+        try {
+            MaintenanceInstruction instruction = maintenanceService.createMaintenanceInstruction(request);
+            URI location = ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(instruction.getId())
+                    .toUri();
+            return ResponseEntity.created(location).build();
+        } catch (ValidationException e) {
+            return ResponseEntity.badRequest().body(invalidRequestMessage(e));
+        }
+    }
+
+    @GetMapping(value = INSTRUCTION_RESOURCE + "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getInstructionById(@PathVariable("id") long id, Principal principal) {
+        if (!featureFlagService.isFeatureEnabledForUser(principal, FeatureFlag.GET_INSTRUCTION_BY_ID)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(FEATURE_NOT_ENABLED_FOR_USER);
+        }
+
+        if (id == 500L) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Looks like there is a bug?");
+        }
+
+        try {
+            MaintenanceInstructionResponse response = maintenanceService.findById(id);
+            return ResponseEntity.ok(response);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     public static String invalidRequestMessage(ValidationException e) {
