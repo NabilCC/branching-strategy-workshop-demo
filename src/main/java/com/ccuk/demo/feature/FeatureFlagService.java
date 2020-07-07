@@ -1,8 +1,11 @@
 package com.ccuk.demo.feature;
 
+import com.configcat.ConfigCatClient;
+import com.configcat.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,9 @@ public class FeatureFlagService implements InitializingBean {
     private static final Logger LOG = LoggerFactory.getLogger(FeatureFlagService.class);
     private Map<FeatureFlag, FeatureFlagConfig> datasource;
 
+    @Value("${config.cat.key}")
+    private String sdkKey;
+
     @Override
     public void afterPropertiesSet() throws Exception {
         datasource = new HashMap<>();
@@ -29,24 +35,24 @@ public class FeatureFlagService implements InitializingBean {
             datasource.put(value, FeatureFlagConfig.disabled(value));
         }
     }
+
     public boolean isFeatureEnabledForUser(Principal userPrincipal, FeatureFlag flag) {
         UsernamePasswordAuthenticationToken userToken = (UsernamePasswordAuthenticationToken) userPrincipal;
         String username = userPrincipal.getName();
-        Set<String> authorityStrings = userToken.getAuthorities().stream()
+        String authorityStrings = userToken.getAuthorities().stream()
                 .map(SimpleGrantedAuthority.class::cast).map(SimpleGrantedAuthority::getAuthority)
-                .collect(Collectors.toSet());
+                .collect(Collectors.joining(","));
 
-        LOG.debug("Is feature {} enabled for user: {}, with authorities: {}", flag.getKey(), username, authorityStrings);
+        LOG.debug("Check is feature {} enabled for user: {}, with authorities: {}", flag.getKey(), username, authorityStrings);
 
-        FeatureFlagConfig config = datasource.get(flag);
-        if (config.getPermittedRoles().isEmpty()) {
-            return config.isEnabled();
-        }
-        Set<String> intersection = new HashSet<>(config.getPermittedRoles());
-        intersection.retainAll(authorityStrings);
-        boolean enabled = config.isEnabled() && intersection.size() > 0;
-        LOG.debug("Is feature {} enabled for user: {} result: {}", flag.getKey(), username, enabled);
-        return enabled;
+        HashMap<String, String> customAttributes = new java.util.HashMap<>();
+        customAttributes.put("authorities", authorityStrings);
+        User userObject = User.newBuilder().custom(customAttributes).build(userPrincipal.getName());
+        ConfigCatClient client = new ConfigCatClient(sdkKey);
+
+        Boolean result = client.getValue(Boolean.class, flag.key, userObject, false);
+        LOG.debug("Is feature {} enabled for user: {}, result: {}", flag.getKey(), username, result);
+        return result;
     }
 
     public List<FeatureFlagConfig> getAllFeatures() {

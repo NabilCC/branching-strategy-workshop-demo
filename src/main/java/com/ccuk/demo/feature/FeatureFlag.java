@@ -2,7 +2,7 @@ package com.ccuk.demo.feature;
 
 public enum FeatureFlag {
 
-    CREATE_INSTRUCTION("create.instructions"), GET_INSTRUCTION_BY_ID("get.instruction.by.id");
+    CREATE_INSTRUCTION("createInstructions"), GET_INSTRUCTION_BY_ID("getInstructionById");
 
     String key;
 
